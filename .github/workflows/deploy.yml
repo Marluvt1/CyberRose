@@ -1,0 +1,27 @@
+name: Deploy CyberRose to GitHub Pages
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Install WASM Workload
+        run: dotnet workload install wasm-tools
+
+      - name: Publish WASM
+        run: dotnet publish CyberRose.Browser/CyberRose.Browser.csproj -c Release -o release
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: release/wwwroot
+          branch: gh-pages
