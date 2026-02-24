@@ -3,6 +3,10 @@ on:
   push:
     branches: [ main ]
 
+# ADD THIS PART HERE:
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
